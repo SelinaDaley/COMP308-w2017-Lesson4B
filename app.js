@@ -9,18 +9,16 @@ let bodyParser = require('body-parser');
 let mongoose = require('mongoose');
 
 // URI
-//let URI = "mongodb://localhost/videogames";
-let URI = "mongodb://selina:123456@ds054999.mlab.com:54999/sdmd-videogames";
+let URI = "mongodb://localhost/videogames";
+//let URI = "mongodb://selina:123456@ds054999.mlab.com:54999/sdmd-videogames";
 //mongodb://<dbuser>:<dbpassword>@ds054999.mlab.com:54999/sdmd-videogames
 
-let db = mongoose.connect(URI, (err) => {
-  if(err) {
-    console.log("Error connecting to MongoDB Server: " + err);
-  }
-  else
-  {
-    console.log("Connected to MongoDB");
-  }
+mongoose.connect(URI);
+
+let db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+  console.log("Conneced to MongoDB...");
 });
 
 let index = require('./routes/index');
